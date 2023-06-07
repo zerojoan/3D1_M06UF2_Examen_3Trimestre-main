@@ -6,60 +6,35 @@ public class GroundSensor : MonoBehaviour
 {
     private PlayerController controller;
     public bool isGrounded;
-
-    SFXManager sfxManager;
-    SoundManager soundManager;
-    GameManager gameManager;
-
+    // Start is called before the first frame update
     void Awake()
     {
         controller = GetComponentInParent<PlayerController>();
-        
-        sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+
+    // Update is called once per frame
+       void OnTriggerEnter2D(Collider2D Other)
     {
-        if(other.gameObject.layer == 3)
-        {
-            isGrounded = true;
-        }
-        else if(other.gameObject.layer == 6)
-        {
-            Debug.Log("Goomba muerto");
-
-            sfxManager.GoombaDeath();
-            
-            Enemy goomba = other.gameObject.GetComponent<Enemy>();
-            goomba.Die();
-
-        }
-
-
-        if(other.gameObject.tag == "DeadZone")
-        {
-            Debug.Log("Estoy muerto");
-
-            soundManager.StopBGM();
-            sfxManager.MarioDeath();
-            gameManager.GameOver();
-            //SceneManager.LoadScene()
-        }  
-    }
-
-    void OnTriggerStay2D(Collider2D other)
-    {
-        if(other.gameObject.layer == 3)
+        if(Other.gameObject.layer == 3)
         {
             isGrounded = true;
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
+
+    void OnTriggerStay2D(Collider2D Other)
     {
-        if(other.gameObject.layer == 3)
+        if(Other.gameObject.layer == 3)
+        {
+            isGrounded = true;
+        }
+    }
+
+
+    void OnTriggerExit2D(Collider2D Other)
+    {
+        if(Other.gameObject.layer == 3)
         {
             isGrounded = false;
         }
